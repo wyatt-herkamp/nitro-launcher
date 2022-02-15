@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@tauri-apps/api": "^1.0.0-rc.1",
+    "skinview3d": "^2.2.1",
     "vue": "^3.2.25"
   },
   "devDependencies": {

@@ -2,3 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+body,
+html {
+  background-color: rgb(43, 48, 114);
+  @apply text-white;
+}
