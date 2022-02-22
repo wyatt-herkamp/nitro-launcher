@@ -3,13 +3,19 @@ all(not(debug_assertions), target_os = "windows"),
 windows_subsystem = "windows"
 )]
 
+use nitro_log::config::Config;
+use nitro_log::NitroLogger;
 use reqwest::{Client, ClientBuilder};
 use tauri::http::Response;
 use crate::error::InternalError;
 use crate::minecraft::structs::VersionManifest;
+use crate::utils::resources::Resources;
 
 pub mod error;
 pub mod minecraft;
+pub mod utils;
+pub mod news;
+pub mod auth;
 
 pub struct GeneralState {
     pub client: Client,
@@ -21,6 +27,9 @@ fn main() {
         client
     };
 
+
+    let config: Config = serde_json::from_str(Resources::file_get_string("log/debug.json").as_str()).unwrap();
+    NitroLogger::load(config, None).unwrap();
     tauri::Builder::default()
         .manage(state)
         .invoke_handler(tauri::generate_handler![get_accounts, get_games, login,get_minecraft_versions])

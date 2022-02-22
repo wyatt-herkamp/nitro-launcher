@@ -1,0 +1,1 @@
+// The Auth Implementation for the Microsoft Auth service. I know. I really dont want this either

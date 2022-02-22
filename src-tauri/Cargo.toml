@@ -12,22 +12,31 @@ rust-version = "1.57"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [build-dependencies]
-tauri-build = { version = "1.0.0-rc.1", features = [] }
+tauri-build = { version = "1.0.0-rc.3", features = [] }
 
 [dependencies]
 serde_json = "1.0.79"
 serde = { version = "1.0.136", features = ["derive"] }
 tauri = { version = "1.0.0-rc.2", features = ["api-all"] }
+# Utils
 thiserror = "1.0.30"
+rust-embed = { version = "6.2.0", features = ["interpolate-folder-path"] }
+dirs = "4.0.0"
+# Logging
 log = "0.4.14"
+nitro_log = { git = "https://github.com/wherkamp/nitro_log", features = ["time", "colors"] }
 
+rss = "2.0.0"
+# Due to requirements inside Microsoft Auth I will need to spin up an HTTP server for this to work. Once
+# Once https://github.com/tauri-apps/tauri/issues/323 is completed we can drop this
+tiny_http = "0.10.0"
 [dependencies.reqwest]
 version = "0.11.8"
 features = ["json"]
 [features]
 # by default Tauri runs in production mode
 # when `tauri dev` runs it is executed with `cargo run --no-default-features` if `devPath` is an URL
-default = [ "custom-protocol" ]
+default = ["custom-protocol"]
 # this feature is used used for production builds where `devPath` points to the filesystem
 # DO NOT remove this
-custom-protocol = [ "tauri/custom-protocol" ]
+custom-protocol = ["tauri/custom-protocol"]
