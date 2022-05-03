@@ -9,20 +9,20 @@
     "tauri": "tauri"
   },
   "dependencies": {
-    "@tauri-apps/api": "^1.0.0-rc.1",
+    "@tauri-apps/api": "^1.0.0-rc.4",
     "skinview3d": "^2.2.1",
-    "vue": "^3.2.31",
-    "vue-router": "^4.0.12"
+    "vue": "^3.2.33",
+    "vue-router": "^4.0.14"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^1.0.0-rc.5",
-    "@types/node": "^17.0.19",
-    "@vitejs/plugin-vue": "^2.2.2",
-    "autoprefixer": "^10.4.2",
-    "postcss": "^8.4.6",
-    "tailwindcss": "^3.0.23",
-    "typescript": "^4.5.5",
-    "vite": "^2.8.4",
-    "vue-tsc": "^0.31.4"
+    "@tauri-apps/cli": "^1.0.0-rc.9",
+    "@types/node": "^17.0.31",
+    "@vitejs/plugin-vue": "^2.3.1",
+    "autoprefixer": "^10.4.7",
+    "postcss": "^8.4.13",
+    "tailwindcss": "^3.0.24",
+    "typescript": "^4.6.4",
+    "vite": "^2.9.7",
+    "vue-tsc": "^0.34.11"
   }
 }

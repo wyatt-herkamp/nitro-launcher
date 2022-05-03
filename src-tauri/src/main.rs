@@ -33,10 +33,6 @@ fn main() {
     tauri::Builder::default()
         .manage(state)
         .invoke_handler(tauri::generate_handler![get_accounts, get_games, login,get_minecraft_versions])
-        .register_uri_scheme_protocol("nitroLauncher", |a, h| {
-            println!("{}", h.uri());
-            return Ok(Response::default());
-        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
