@@ -13,6 +13,8 @@ pub enum InternalError {
     JSONError(serde_json::Error),
     #[error("Minecraft error {0}")]
     MinecraftAPI(minecraft::error::MinecraftAPIError),
+    #[error("IO Error: {0}")]
+    IOError(std::io::Error),
     #[error("Internal Error {0}")]
     Error(String),
 }
@@ -23,11 +25,19 @@ impl Into<InvokeError> for InternalError {
         result.into()
     }
 }
-impl From<MinecraftAPIError> for InternalError{
+
+impl From<MinecraftAPIError> for InternalError {
     fn from(error: MinecraftAPIError) -> Self {
         return InternalError::MinecraftAPI(error);
     }
 }
+
+impl From<std::io::Error> for InternalError {
+    fn from(error: std::io::Error) -> Self {
+        return InternalError::IOError(error);
+    }
+}
+
 impl From<serde_json::Error> for InternalError {
     fn from(err: serde_json::Error) -> InternalError {
         InternalError::JSONError(err)

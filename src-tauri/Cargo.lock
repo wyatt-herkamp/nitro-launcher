@@ -1899,6 +1899,7 @@ dependencies = [
  "tauri-build",
  "thiserror",
  "tiny_http",
+ "uuid 1.0.0",
 ]
 
 [[package]]
@@ -3758,6 +3759,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8cfcd319456c4d6ea10087ed423473267e1a071f3bc0aa89f80d60997843c6f0"
 dependencies = [
  "getrandom 0.2.6",
+ "serde",
 ]
 
 [[package]]

@@ -25,7 +25,7 @@ dirs = "4.0.0"
 # Logging
 log = "0.4.14"
 nitro_log = { git = "https://github.com/wherkamp/nitro_log", features = ["time", "colors"] }
-
+uuid = {version="1.0.0", features= ["serde","v4"] }
 rss = "2.0.0"
 # Due to requirements inside Microsoft Auth I will need to spin up an HTTP server for this to work. Once
 # Once https://github.com/tauri-apps/tauri/issues/323 is completed we can drop this

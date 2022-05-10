@@ -7,6 +7,7 @@ use nitro_log::config::Config;
 use nitro_log::NitroLogger;
 use reqwest::{Client, ClientBuilder};
 use tauri::http::Response;
+use crate::configuration::account::Account;
 use crate::error::InternalError;
 use crate::minecraft::structs::VersionManifest;
 use crate::utils::resources::Resources;
@@ -16,6 +17,7 @@ pub mod minecraft;
 pub mod utils;
 pub mod news;
 pub mod auth;
+pub mod configuration;
 
 pub struct GeneralState {
     pub client: Client,
@@ -38,8 +40,8 @@ fn main() {
 }
 
 #[tauri::command]
-fn get_accounts() -> Result<String, InternalError> {
-    Ok("".to_string())
+fn get_accounts() -> Result<Vec<Account>, InternalError> {
+   configuration::account::get_accounts()
 }
 
 #[tauri::command]

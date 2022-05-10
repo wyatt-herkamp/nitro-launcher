@@ -23,3 +23,8 @@ impl Resources {
         String::from_utf8(vec).unwrap()
     }
 }
+
+
+pub fn get_nitro_launcher_dir()->PathBuf{
+    dirs::home_dir().unwrap().join(".nitro_launcher")
+}
