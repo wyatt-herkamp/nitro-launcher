@@ -12,19 +12,19 @@ rust-version = "1.57"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [build-dependencies]
-tauri-build = { version = "1.0.0-rc.8", features = [] }
+tauri-build = { version = "1.2", features = [] }
 
 [dependencies]
 serde_json = "1.0.80"
 serde = { version = "1.0.137", features = ["derive"] }
-tauri = { version = "1.0.0-rc.9", features = ["api-all"] }
+tauri = { version = "1.2", features = ["api-all"] }
 # Utils
 thiserror = "1.0.31"
 rust-embed = { version = "6.2.0", features = ["interpolate-folder-path"] }
 dirs = "4.0.0"
 # Logging
 log = "0.4.14"
-nitro_log = { git = "https://github.com/wherkamp/nitro_log", features = ["time", "colors"] }
+#nitro_log = { git = "https://github.com/wherkamp/nitro_log", features = ["time", "colors"] }
 uuid = {version="1.0.0", features= ["serde","v4"] }
 rss = "2.0.0"
 # Due to requirements inside Microsoft Auth I will need to spin up an HTTP server for this to work. Once

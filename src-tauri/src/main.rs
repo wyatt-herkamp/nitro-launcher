@@ -3,8 +3,7 @@ all(not(debug_assertions), target_os = "windows"),
 windows_subsystem = "windows"
 )]
 
-use nitro_log::config::Config;
-use nitro_log::NitroLogger;
+
 use reqwest::{Client, ClientBuilder};
 use tauri::http::Response;
 use crate::configuration::account::Account;
@@ -30,8 +29,7 @@ fn main() {
     };
 
 
-    let config: Config = serde_json::from_str(Resources::file_get_string("log/debug.json").as_str()).unwrap();
-    NitroLogger::load(config, None).unwrap();
+
     tauri::Builder::default()
         .manage(state)
         .invoke_handler(tauri::generate_handler![get_accounts, get_games, login,get_minecraft_versions])
