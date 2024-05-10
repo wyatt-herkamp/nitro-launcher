@@ -1,0 +1,9 @@
+[package]
+name = "packwiz-rs"
+authors.workspace = true
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]

@@ -1,0 +1,36 @@
+[package]
+name = "nitro-launcher"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[build-dependencies]
+tauri-build = { version = "2.0.0-beta", features = [] }
+
+[dependencies]
+tauri = { version = "2.0.0-beta", features = [] }
+tauri-plugin-shell = "2.0.0-beta"
+serde.workspace = true
+serde_json.workspace = true
+toml.workspace = true
+chrono = { version = "0.4", features = ["serde"] }
+thiserror = "1"
+
+tracing.workspace = true
+tracing-appender.workspace = true
+tracing-subscriber.workspace = true
+
+
+once_cell.workspace = true
+rand = "0.8"
+derive_more.workspace = true
+ts-rs = "*"
+human-panic = "2"
+anyhow.workspace = true
+
+[features]
+
+[lints]
+workspace = true

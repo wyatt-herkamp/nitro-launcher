@@ -1,0 +1,9 @@
+[package]
+name = "nl-java-utils"
+authors.workspace = true
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]

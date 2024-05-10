@@ -1,0 +1,25 @@
+[package]
+name = "nl-account-manager"
+authors.workspace = true
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+minecraft-rs.workspace = true
+serde_json.workspace = true
+serde.workspace = true
+thiserror.workspace = true
+toml.workspace = true
+semver.workspace = true
+current_semver.workspace = true
+derive_more.workspace = true
+uuid.workspace = true
+chrono.workspace = true
+tracing.workspace = true
+once_cell.workspace = true
+reqwest.workspace = true
+[dev-dependencies]
+anyhow.workspace = true
+pretty_assertions.workspace = true
