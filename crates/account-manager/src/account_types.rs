@@ -1,5 +1,5 @@
 use derive_more::From;
-use minecraft_rs::{profile::ProfileResponse, AccountSave};
+use minecraft_rs::{authentication::AccountSave, profile::ProfileResponse};
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, From)]
@@ -25,7 +25,7 @@ pub struct VersionCheck {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct AccountsFile {
     pub version: semver::Version,
-    
+
     pub accounts: Vec<Account>,
 }
 impl Default for AccountsFile {
@@ -39,9 +39,7 @@ impl Default for AccountsFile {
 #[cfg(test)]
 mod tests {
     use chrono::DateTime;
-    use minecraft_rs::{
-        profile::ProfileResponse, AccountSave, MicrosoftToken, MinecraftSave, XboxUserSave,
-    };
+    use minecraft_rs::{authentication::{MicrosoftToken, MinecraftSave, XboxUserSave}, profile::ProfileResponse};
     use uuid::Uuid;
 
     use super::*;

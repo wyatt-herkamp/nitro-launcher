@@ -5,5 +5,16 @@ edition.workspace = true
 version.workspace = true
 license.workspace = true
 repository.workspace = true
-
+build = "build.rs"
 [dependencies]
+serde.workspace = true
+thiserror.workspace = true
+which = "*"
+temp-dir = "0.1.13"
+once_cell.workspace = true
+tracing.workspace = true
+[build-dependencies]
+anyhow = "1"
+[dev-dependencies]
+anyhow = "1"
+tracing-subscriber.workspace = true

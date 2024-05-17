@@ -3,14 +3,20 @@ use std::{
     fs::{read_to_string, rename, OpenOptions},
     io::Write,
     path::{Path, PathBuf},
+    sync::Arc,
 };
 
-use account_types::{AccountsFile, VersionCheck};
 use current_semver::current_major;
 
+use derive_more::Deref;
+use microsoft_auth_properties::{get_auth_api_user_agent, get_azura_microsoft};
+use minecraft_rs::authentication::{AuthProperties, AuthenticationClient};
+use parking_lot::Mutex;
+use reqwest::ClientBuilder;
 use thiserror::Error;
 use tracing::warn;
 mod account_types;
+pub use account_types::*;
 mod microsoft_auth_properties;
 static CURRENT_MAJOR: u64 = current_major!() as u64;
 #[derive(Debug, Error)]
@@ -23,28 +29,59 @@ pub enum AccountLoadError {
     TomlDe(#[from] toml::de::Error),
     #[error("Could Not Serialize Accounts file. THIS IS A BUG {0}")]
     TomlSer(#[from] toml::ser::Error),
+    #[error("Reqwest Error {0}")]
+    Reqwest(#[from] reqwest::Error),
 }
-pub struct AccountManager {
+#[derive(Debug, Clone)]
+pub struct AccountManager(Arc<InnerAccountManager>);
+impl Deref for AccountManager {
+    type Target = InnerAccountManager;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+impl From<InnerAccountManager> for AccountManager {
+    fn from(value: InnerAccountManager) -> Self {
+        AccountManager(Arc::new(value))
+    }
+}
+#[derive(Debug)]
+pub struct InnerAccountManager {
     pub path: PathBuf,
-    pub accounts: AccountsFile,
+    pub account_api: AuthenticationClient,
+    pub accounts: parking_lot::Mutex<AccountsFile>,
 }
 
 impl AccountManager {
-    pub async fn load_from_directory(
-        dir: impl AsRef<Path>,
-    ) -> Result<AccountManager, AccountLoadError> {
+    pub fn load_from_directory(dir: impl AsRef<Path>) -> Result<AccountManager, AccountLoadError> {
         let dir = dir.as_ref();
         if !dir.is_dir() {
             return Err(AccountLoadError::SrcFolderIsNotADirectory(
                 dir.to_path_buf(),
             ));
         }
+        let account_api = AuthenticationClient::new(
+            ClientBuilder::new()
+                .user_agent(get_auth_api_user_agent().as_ref())
+                .build()?,
+            AuthProperties {
+                azura_microsoft_client: get_azura_microsoft()
+                    .map(|v| v.into_owned())
+                    .unwrap_or_else(|| {
+                        warn!("No API Token for Microsoft found. Authentication will be broken");
+                        String::new()
+                    }),
+            },
+        );
         let accounts_file = dir.join("accounts.toml");
         if !accounts_file.exists() {
-            return Ok(AccountManager {
+            return Ok(InnerAccountManager {
+                account_api,
                 path: accounts_file,
-                accounts: AccountsFile::default(),
-            });
+                accounts: Default::default(),
+            }
+            .into());
         }
         let accounts_file_content = read_to_string(&accounts_file)?;
         let version_check: VersionCheck = toml::from_str(&accounts_file_content)?;
@@ -70,16 +107,19 @@ impl AccountManager {
         } else {
             toml::from_str(&accounts_file_content)?
         };
-        let manager = AccountManager {
+        let manager: AccountManager = InnerAccountManager {
+            account_api,
             path: accounts_file,
-            accounts,
-        };
+            accounts: Mutex::new(accounts),
+        }
+        .into();
         manager.save()?;
         Ok(manager)
     }
 
     pub fn save(&self) -> Result<(), AccountLoadError> {
-        let as_toml = toml::to_string_pretty(&self.accounts)?;
+        let locked = self.accounts.lock();
+        let as_toml = toml::to_string_pretty(&*locked)?;
         let mut file = OpenOptions::new()
             .create(true)
             .write(true)
